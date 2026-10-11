@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrueTone Studio | Foundation Science & Shade Finder</title>
+  <meta name="description" content="Precision foundation shade matching powered by colorimetry, Indian brands, viral cushion compacts, lighting diagnostics, oxidation indices, and price history tracking.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Minimalist Clean Header -->
+  <header class="header-hero">
+    <div class="container">
+      <div class="header-top-row">
+        <div class="brand-pill">
+          <span class="pulse-dot"></span>
+          <span>TrueTone Studio</span>
+          <span class="pill-divider">•</span>
+          <span>Colorimetry & Skincare Science</span>
+        </div>
+        <div class="header-status-badge">
+          <span>🇮🇳 Indian Brands Included</span>
+          <span class="pill-divider">•</span>
+          <span>🫧 Cushion Foundations</span>
+          <span class="pill-divider">•</span>
+          <span>🤰 Pregnancy Safe Tags</span>
+        </div>
+      </div>
+
+      <div class="header-main-content">
+        <h1 class="hero-title">Precision Foundation & Complexion Matcher</h1>
+        <p class="hero-subtitle">
+          Find your scientifically perfect shade across top Indian brands (Kay Beauty, Lakmé, Sugar, PAC) and global benchmarks. Complete with real-user oxidation indices, texture guides, and past discount price tracking.
+        </p>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="tabs-nav" aria-label="Main Navigation">
+        <button class="tab-btn active" data-tab="quiz">
+          <span class="nav-icon">🎯</span>
+          <span class="nav-label">Shade Match Quiz</span>
+        </button>
+        <button class="tab-btn" data-tab="camera">
+          <span class="nav-icon">📷</span>
+          <span class="nav-label">Photo & Lighting Studio</span>
+        </button>
+        <button class="tab-btn" data-tab="converter">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Indian & Global Dupes</span>
+        </button>
+        <button class="tab-btn" data-tab="library">
+          <span class="nav-icon">🎨</span>
+          <span class="nav-label">Formula Matrix</span>
+        </button>
+        <button class="tab-btn" data-tab="guide">
+          <span class="nav-icon">💄</span>
+          <span class="nav-label">Formulation Guide</span>
+        </button>
+        <button class="tab-btn" data-tab="passport">
+          <span class="nav-icon">🏷️</span>
+          <span class="nav-label">My Passport</span>
+          <span id="saved-count-badge" class="passport-badge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="main-content container">
+
+    <!-- ====================================================================
+         TAB 1: PRECISION DIAGNOSTIC QUIZ
+         ==================================================================== -->
+    <section id="tab-quiz" class="tab-panel active">
+      <div id="quiz-card" class="card">
+        <div class="quiz-step-indicator" id="quiz-step-dots"></div>
+        <div id="quiz-step-num" class="step-counter-label">Step 1 of 6</div>
+        <h2 id="quiz-title" class="card-title">What is your skin depth?</h2>
+        <p id="quiz-desc" class="card-desc">Choose the depth category that best matches your natural skin in indirect daylight.</p>
+
+        <!-- Dynamic Question Content -->
+        <div id="quiz-question-body"></div>
+
+        <div class="quiz-actions">
+          <button id="quiz-prev-btn" class="btn btn-secondary" style="visibility:hidden;">
+            ← Back
+          </button>
+          <button id="quiz-next-btn" class="btn btn-primary">
+            Next Step →
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Results View (Shown when completed) -->
+      <div id="quiz-results-container" style="display:none;">
+        <div class="results-header-banner">
+          <div class="results-profile">
+            <div id="quiz-res-swatch" class="profile-swatch"></div>
+            <div>
+              <div class="results-meta-label">Your Diagnostic Profile</div>
+              <h2 id="quiz-res-title" class="results-profile-title">Medium Depth • Warm Undertone</h2>
+              <div class="profile-badge-row">
+                <span id="quiz-res-badge-depth" class="badge badge-depth">Depth: Medium</span>
+                <span id="quiz-res-badge-undertone" class="badge badge-warm">Undertone: Warm</span>
+                <span id="quiz-res-badge-confidence" class="badge badge-score">96% Match Confidence</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button id="quiz-retake-btn" class="btn btn-secondary">
+              ↺ Retake Quiz
+            </button>
+          </div>
+        </div>
+
+        <!-- Pro Artist Note -->
+        <div class="card callout-card">
+          <div class="callout-header">
+            <span class="callout-icon">🌿</span>
+            <span class="callout-title">Colorimetry Analysis & Undertone Note:</span>
+          </div>
+          <p id="quiz-res-explanation" class="callout-body"></p>
+        </div>
+
+        <!-- Category Filter Pills Bar for Results -->
+        <div class="section-title-row">
+          <div>
+            <h3 class="section-title">Your Curated Formula Matches</h3>
+            <p class="section-subtitle">Categorized by brand region, formulation price tier, and cushion compacts.</p>
+          </div>
+        </div>
+
+        <div class="filter-pills-bar" id="quiz-results-filter-bar">
+          <button class="filter-pill-btn active" data-filter="all">All Matches</button>
+          <button class="filter-pill-btn" data-filter="indian">🇮🇳 Indian Brands</button>
+          <button class="filter-pill-btn" data-filter="cushion">🫧 Cushion Compacts</button>
+          <button class="filter-pill-btn" data-filter="drugstore">💊 Drugstore (Budget)</button>
+          <button class="filter-pill-btn" data-filter="luxe">💎 Luxe & High-End</button>
+          <button class="filter-pill-btn" data-filter="bestseller">⭐ Bestsellers Only</button>
+          <button class="filter-pill-btn" data-filter="pregnancy">🤰 Pregnancy Safe</button>
+        </div>
+
+        <div id="quiz-recommendations-grid" class="products-grid"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: CAMERA & DAYLIGHT LIGHTING AUDITOR STUDIO
+         ==================================================================== -->
+    <section id="tab-camera" class="tab-panel">
+      <div class="card">
+        <div class="studio-header-row">
+          <div>
+            <h2 class="card-title">Colorimetry Photo Studio & Lighting Auditor</h2>
+            <p class="card-desc">
+              Upload a selfie or use your camera to analyze skin tone directly. Our intelligent algorithm audits your lighting environment first: <strong>automated matching runs only if natural, diffused daylight is verified</strong>.
+            </p>
+          </div>
+          <div class="lighting-feature-badge">
+            <span class="status-indicator"></span>
+            <span>Intelligent 5500K Daylight Verification</span>
+          </div>
+        </div>
+
+        <!-- Lighting Audit Banner (Live Diagnostic Feedback) -->
+        <div id="lighting-audit-banner" class="lighting-audit-card suboptimal" style="display:none;">
+          <div class="lighting-audit-header">
+            <div>
+              <span id="lighting-score-badge" class="badge badge-warning">Lighting Quality: Checking...</span>
+              <h4 id="lighting-audit-title" class="lighting-audit-title">Analyzing Lighting Environment...</h4>
+            </div>
+          </div>
+          <p id="lighting-audit-desc" class="lighting-audit-text"></p>
+
+          <!-- Fallback Box: Displayed when lighting is sub-optimal -->
+          <div id="lighting-fallback-box" class="lighting-fallback-actions" style="display:none;">
+            <div class="fallback-guidance">
+              <strong>Why this matters:</strong> Indoor lamps and dim rooms shift colors by up to 2 shades, causing foundation mismatches. To guarantee 100% precision without perfect lighting, our diagnostic questionnaire is recommended.
+            </div>
+            <div class="fallback-btn-row">
+              <button id="lighting-fallback-quiz-btn" class="btn btn-primary">
+                🎯 Switch to Skin Diagnostic Quiz (Recommended)
+              </button>
+              <button id="lighting-override-btn" class="btn btn-secondary">
+                ⚠️ Override & Match Anyway
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="camera-studio-layout">
+          <!-- Viewport Column -->
+          <div>
+            <div class="canvas-viewport">
+              <canvas id="camera-canvas"></canvas>
+              <video id="camera-video" playsinline></video>
+            </div>
+
+            <div class="camera-controls-bar">
+              <label class="btn btn-secondary" style="margin:0; cursor:pointer;">
+                <span>📁</span> Upload Photo
+                <input type="file" id="camera-upload-input" accept="image/*" style="display:none;">
+              </label>
+
+              <button id="camera-webcam-btn" class="btn btn-secondary">
+                <span>📹</span> Start Webcam
+              </button>
+
+              <button id="camera-capture-btn" class="btn btn-primary" style="display:none;">
+                <span>📸</span> Capture Snapshot & Audit
+              </button>
+            </div>
+          </div>
+
+          <!-- Multi-Point Sampling & Controls Column -->
+          <div>
+            <!-- Multi-Point Zones -->
+            <div class="sampling-zones-box">
+              <div class="sub-heading-text">1. Precision Multi-Point Sampling</div>
+              <div class="zone-selector-grid">
+                <div class="zone-btn active" data-zone="jawline">
+                  <div style="font-size:12px; font-weight:600;">Jawline (50%)</div>
+                  <div id="zone-swatch-jawline" class="zone-swatch-mini" style="background:#e0e0e0;"></div>
+                </div>
+                <div class="zone-btn" data-zone="cheek">
+                  <div style="font-size:12px; font-weight:600;">Cheek (25%)</div>
+                  <div id="zone-swatch-cheek" class="zone-swatch-mini" style="background:#e0e0e0;"></div>
+                </div>
+                <div class="zone-btn" data-zone="neck">
+                  <div style="font-size:12px; font-weight:600;">Neck (25%)</div>
+                  <div id="zone-swatch-neck" class="zone-swatch-mini" style="background:#e0e0e0;"></div>
+                </div>
+              </div>
+              <div class="helper-hint">
+                *Sampling along jawline & neck prevents surface redness or sun-tan from distorting your match.
+              </div>
+            </div>
+
+            <!-- Lighting sliders -->
+            <div class="control-box">
+              <div class="sub-heading-text">2. Manual Calibration Adjustment</div>
+              <div class="slider-group">
+                <label>
+                  <span>Exposure / Brightness Compensation</span>
+                  <span id="brightness-val" style="font-weight:600;">0</span>
+                </label>
+                <input type="range" id="camera-brightness-slider" class="slider-input" min="-30" max="30" value="0">
+              </div>
+
+              <div class="slider-group">
+                <label>
+                  <span>Kelvin Warmth Balance (Tungsten vs Daylight)</span>
+                  <span id="warmth-val" style="font-weight:600;">0</span>
+                </label>
+                <input type="range" id="camera-warmth-slider" class="slider-input" min="-30" max="30" value="0">
+              </div>
+            </div>
+
+            <!-- Complexion Presets -->
+            <div class="control-box">
+              <div class="sub-heading-text">Instant Benchmark Complexions</div>
+              <div class="preset-grid" id="camera-presets-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camera Results Section -->
+        <div id="camera-results-banner" style="display:none; margin-top:36px;">
+          <div class="results-header-banner">
+            <div class="results-profile">
+              <div id="camera-res-swatch" class="profile-swatch"></div>
+              <div>
+                <div class="results-meta-label">Colorimetric Extraction</div>
+                <h3 id="camera-res-hex" class="results-profile-title">#D7AA83</h3>
+                <div class="profile-badge-row">
+                  <span id="camera-res-depth" class="badge badge-depth">Depth: Medium</span>
+                  <span id="camera-res-undertone" class="badge badge-warm">Warm Undertone</span>
+                  <span class="badge badge-score">CIEDE2000 Calibrated</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="section-title" style="margin-top:28px; margin-bottom:16px;">
+            Scientifically Closest Formula Matches
+          </h3>
+          <div id="camera-matches-grid" class="products-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: CROSS-BRAND DUPE CONVERTER
+         ==================================================================== -->
+    <section id="tab-converter" class="tab-panel">
+      <div class="card">
+        <h2 class="card-title">Cross-Brand Shade Converter & Indian Dupe Matcher</h2>
+        <p class="card-desc">
+          Already know your shade in MAC, Fenty, or Maybelline? Select it below to instantly calculate matching sister shades in Kay Beauty, Sugar, PAC, K-Beauty Cushions, and affordable drugstore dupes.
+        </p>
+
+        <div class="converter-box">
+          <div class="select-group">
+            <label for="converter-brand-select">1. Select Current Brand</label>
+            <select id="converter-brand-select" class="styled-select">
+              <option value="">-- Choose Brand You Wear --</option>
+            </select>
+          </div>
+
+          <div class="converter-arrow">⇄</div>
+
+          <div class="select-group">
+            <label for="converter-shade-select">2. Select Your Current Shade</label>
+            <select id="converter-shade-select" class="styled-select" disabled>
+              <option value="">-- First Select Brand --</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Converter Results View -->
+        <div id="converter-results-area" style="display:none;">
+          <!-- Source Card -->
+          <div class="source-shade-card">
+            <div id="converter-source-swatch" class="source-swatch-square"></div>
+            <div>
+              <div id="converter-source-brand" class="source-brand-tag">FENTY BEAUTY</div>
+              <div id="converter-source-name" class="source-title">Shade 290</div>
+              <div id="converter-source-specs" class="source-specs">Pro Filt'r Soft Matte • Medium Depth • Olive Undertone</div>
+            </div>
+          </div>
+
+          <!-- Section: Indian Brands Sister Matches -->
+          <div class="category-block">
+            <div class="category-block-header">
+              <span class="category-icon">🇮🇳</span>
+              <div>
+                <h3 class="category-title">Top Indian Brand Matches</h3>
+                <p class="category-subtitle">Calibrated for Indian weather and olive/golden undertones (Kay Beauty, PAC, Sugar).</p>
+              </div>
+            </div>
+            <div id="converter-indian-grid" class="products-grid"></div>
+          </div>
+
+          <!-- Section: Cushion Compact Matches -->
+          <div class="category-block">
+            <div class="category-block-header">
+              <span class="category-icon">🫧</span>
+              <div>
+                <h3 class="category-title">Equivalent Cushion Compact Formats</h3>
+                <p class="category-subtitle">Viral K-Beauty and Indian portable cushions with matching colorimetry.</p>
+              </div>
+            </div>
+            <div id="converter-cushion-grid" class="products-grid"></div>
+          </div>
+
+          <!-- Section: Budget Drugstore Dupes -->
+          <div class="category-block">
+            <div class="category-block-header">
+              <span class="category-icon">💊</span>
+              <div>
+                <h3 class="category-title">Affordable Drugstore Dupes (Under ₹999)</h3>
+                <p class="category-subtitle">Formulated with matching color balance at a fraction of the cost.</p>
+              </div>
+            </div>
+            <div id="converter-drugstore-grid" class="products-grid"></div>
+          </div>
+
+          <!-- Section: Sister Global Matches -->
+          <div class="category-block">
+            <div class="category-block-header">
+              <span class="category-icon">🌐</span>
+              <div>
+                <h3 class="category-title">Global Benchmark Equivalents (MAC, NARS, Dior)</h3>
+                <p class="category-subtitle">Calculated via CIEDE2000 colorimetric equations.</p>
+              </div>
+            </div>
+            <div id="converter-matches-grid" class="products-grid"></div>
+          </div>
+
+          <!-- Section: Luxury Matches -->
+          <div class="category-block">
+            <div class="category-block-header">
+              <span class="category-icon">💎</span>
+              <div>
+                <h3 class="category-title">High-End & Luxury Formulations</h3>
+                <p class="category-subtitle">Prestige skincare-infused bases with gold bhasma, arnica, and oat peptides.</p>
+              </div>
+            </div>
+            <div id="converter-luxe-grid" class="products-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: FORMULA & SHADE MATRIX LIBRARY
+         ==================================================================== -->
+    <section id="tab-library" class="tab-panel">
+      <div class="card">
+        <h2 class="card-title">Formula Matrix & Foundation Registry</h2>
+        <p class="card-desc">
+          Browse and filter benchmark foundations across Indian brands, viral cushions, drugstore picks, and luxury formulations.
+        </p>
+
+        <!-- Detailed Filter Controls -->
+        <div class="filter-bar">
+          <input type="text" id="library-search" class="search-input" placeholder="🔍 Search brand, shade code, texture, or ingredient (e.g., Kay Beauty, 150N, Cushion, Turmeric)...">
+
+          <div class="filter-selects">
+            <select id="library-brand-filter" class="filter-select">
+              <option value="">All Brands (Indian & Global)</option>
+            </select>
+
+            <select id="library-tier-filter" class="filter-select">
+              <option value="">All Price Tiers</option>
+              <option value="drugstore">Drugstore (Budget < ₹999)</option>
+              <option value="mid">Mid-Range (₹1,000 - ₹2,500)</option>
+              <option value="luxe">Luxury / Prestige (₹2,500+)</option>
+            </select>
+
+            <select id="library-format-filter" class="filter-select">
+              <option value="">All Formats</option>
+              <option value="liquid">Liquid & Serum</option>
+              <option value="cushion">Cushion Compact</option>
+              <option value="stick">Stick Foundation</option>
+              <option value="mousse">Whipped Mousse</option>
+              <option value="tint">Herbal Skin Tint</option>
+            </select>
+
+            <select id="library-depth-filter" class="filter-select">
+              <option value="">All Depths</option>
+              <option value="fair">Fair (I)</option>
+              <option value="light">Light (II)</option>
+              <option value="medium">Medium (III-IV)</option>
+              <option value="tan">Tan / Dusky (IV-V)</option>
+              <option value="deep">Deep (V)</option>
+              <option value="rich">Rich (VI)</option>
+            </select>
+
+            <select id="library-undertone-filter" class="filter-select">
+              <option value="">All Undertones</option>
+              <option value="warm">Warm (Golden / Peachy)</option>
+              <option value="olive">Olive (Greenish / Muted)</option>
+              <option value="neutral">Neutral (Balanced)</option>
+              <option value="cool">Cool (Rosy / Red)</option>
+            </select>
+
+            <select id="library-rating-filter" class="filter-select">
+              <option value="">All Ratings</option>
+              <option value="bestseller">⭐ Bestsellers (4.6★+)</option>
+              <option value="average">⚖️ Average Rated</option>
+              <option value="lowest">⚠️ Caution / Lowest Rated</option>
+            </select>
+
+            <select id="library-pregnancy-filter" class="filter-select">
+              <option value="">Pregnancy Safety</option>
+              <option value="safe">🤰 Pregnancy & Nursing Safe Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="library-count" class="results-count-text">Displaying formulas...</div>
+
+        <div id="library-grid" class="products-grid"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: PRO MATCHING GUIDE & SCIENCE MASTERCLASS
+         ==================================================================== -->
+    <section id="tab-guide" class="tab-panel">
+      <div class="card">
+        <h2 class="card-title">Foundation Chemistry & Complexion Masterclass</h2>
+        <p class="card-desc">
+          Essential insights from cosmetic chemists on oxidation, undertone mechanics, pregnancy ingredient safety, and age-adapted textures.
+        </p>
+
+        <div class="guide-grid">
+          <div class="guide-card">
+            <div class="guide-icon">🌿</div>
+            <h3 class="guide-title">The Indian Olive Undertone Paradox</h3>
+            <p class="guide-body">
+              Olive skin contains distinct greenish or muted greyish undertones. When olive complexions wear standard warm foundations, they look orange; when they wear cool foundations, they look chalky or ashy. Dedicated olive formulations (like Kay Beauty 160Y, PAC 2.4, and Fenty 290) balance muted green pigments to eliminate mask-like edges.
+            </p>
+          </div>
+
+          <div class="guide-card">
+            <div class="guide-icon">⏳</div>
+            <h3 class="guide-title">Why Foundations Oxidize & Darken</h3>
+            <p class="guide-body">
+              Oxidation occurs when foundation pigments react with atmospheric oxygen and skin sebum, darkening by 0.5 to 1 full shade within 15–20 minutes. If your skin is oily, always check our real-user oxidation indices and consider sizing half a shade lighter.
+            </p>
+          </div>
+
+          <div class="guide-card">
+            <div class="guide-icon">🤰</div>
+            <h3 class="guide-title">Pregnancy & Lactation Foundation Safety</h3>
+            <p class="guide-body">
+              During pregnancy and nursing, dermatologists advise avoiding chemical sunscreen filters (like Octinoxate and Oxybenzone), retinoids/vitamin A derivatives, and high salicylic acid concentrations. Mineral-based pigments (Titanium Dioxide and Zinc Oxide) and clean vegan formulas (like Plum, Just Herbs, and Forest Essentials) provide 100% peace of mind.
+            </p>
+          </div>
+
+          <div class="guide-card">
+            <div class="guide-icon">🫧</div>
+            <h3 class="guide-title">The Rise of Cushion Foundations</h3>
+            <p class="guide-body">
+              Cushion compacts use micro-aerated sponge mesh to disperse fluid in ultra-thin, buildable layers. They deliver dewy glass skin with zero cakeyness and allow quick touch-ups throughout the workday without needing a separate brush.
+            </p>
+          </div>
+
+          <div class="guide-card">
+            <div class="guide-icon">🌸</div>
+            <h3 class="guide-title">Age-Adapted Foundation Textures</h3>
+            <p class="guide-body">
+              <strong>Teens & 20s:</strong> Require non-comedogenic oil-control and clay minerals to prevent midday shine.<br>
+              <strong>30s & 40s+:</strong> Require plumping hyaluronic acid and ceramides that glide over expression lines without settling into creases.
+            </p>
+          </div>
+
+          <div class="guide-card">
+            <div class="guide-icon">📉</div>
+            <h3 class="guide-title">Understanding Festive Discount Cycles</h3>
+            <p class="guide-body">
+              Indian beauty platforms offer cyclical discounts: Nykaa Pink Friday (Nov), Myntra Big Fashion Festival (Oct), and Amazon Great Indian Festival. Use our built-in Price History tool to see whether today's price is close to the all-time low.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 6: MY BEAUTY PASSPORT
+         ==================================================================== -->
+    <section id="tab-passport" class="tab-panel">
+      <div class="card">
+        <h2 class="card-title">My Foundation Beauty Passport</h2>
+        <p class="card-desc">
+          Your saved personal foundation portfolio. Take this with you when shopping online on Nykaa or at Sephora, MAC, and beauty counters.
+        </p>
+
+        <div id="passport-empty-state" class="empty-state-box">
+          <div class="empty-state-icon">🏷️</div>
+          <h3 class="empty-state-title">Your Beauty Passport is Empty</h3>
+          <p class="empty-state-desc">
+            Take the Shade Match Quiz, use the Photo Studio, or browse the Formula Matrix and click the heart icon on any product to save it here.
+          </p>
+          <button class="btn btn-primary" onclick="App.switchTab('quiz')">
+            Take Shade Match Quiz →
+          </button>
+        </div>
+
+        <div id="passport-content" style="display:none;">
+          <div class="passport-card">
+            <div class="passport-header">
+              <div>
+                <div class="passport-logo">TRUETONE BEAUTY PASSPORT</div>
+                <div class="passport-sublogo">Personalized Skin Complexion & Formula Registry</div>
+              </div>
+              <div>
+                <button id="passport-print-btn" class="btn btn-secondary print-btn">
+                  🖨 Print / Export
+                </button>
+              </div>
+            </div>
+
+            <div id="passport-items-container" class="passport-grid"></div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; margin-top:20px;">
+            <button id="passport-clear-btn" class="btn btn-secondary" style="font-size:13px; color:#c62828;">
+              🗑 Clear Saved Portfolio
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       MODAL 1: TRY-ON & SPLIT-SWATCH WITH OXIDATION SIMULATOR
+       ==================================================================== -->
+  <div id="try-on-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">&times;</button>
+
+      <div class="modal-pretitle">Virtual Swatch & Skin Match Studio</div>
+      <h3 id="modal-shade-title" class="modal-main-title">Kay Beauty - Shade 150N</h3>
+      <div id="modal-shade-product" class="modal-subtitle">Hydrating Foundation • Fluid Serum</div>
+
+      <!-- Split Swatch Box -->
+      <div class="split-swatch-box">
+        <div id="modal-skin-side" class="split-side-left">
+          <span>Your Skin Sample</span>
+        </div>
+        <div class="split-divider"></div>
+        <div id="modal-shade-side" class="split-side-right">
+          <span id="modal-shade-label">Foundation Swatch (Fresh)</span>
+        </div>
+      </div>
+
+      <!-- Oxidation Toggle -->
+      <div class="oxidation-simulator-bar">
+        <div>
+          <div class="ox-sim-title">Oxidation Dry-Down Simulator</div>
+          <div class="ox-sim-sub">Simulate shade shift after 15 minutes of sebum contact</div>
+        </div>
+        <label class="switch-control">
+          <input type="checkbox" id="modal-oxidation-toggle">
+          <span class="slider-round" id="modal-toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- User Oxidation Report -->
+      <div class="modal-report-box">
+        <span id="modal-oxidation-report-text">User Experience: Stays 100% true to tone with zero shift.</span>
+      </div>
+
+      <div class="modal-badge-row">
+        <span id="modal-depth-badge" class="badge badge-depth">Medium Depth</span>
+        <span id="modal-undertone-badge" class="badge badge-olive">Olive Undertone</span>
+        <span id="modal-pregnancy-status" class="badge badge-success">🤰 Pregnancy Safe</span>
+      </div>
+
+      <div class="modal-age-note">
+        <strong>Age Suitability:</strong> <span id="modal-age-recommendation">All Ages (20s - 50s+)</span>
+      </div>
+
+      <div id="modal-shade-desc" class="modal-body-desc">
+        Seamlessly balances warm yellow and subtle neutral undertones.
+      </div>
+
+      <div class="modal-footer">
+        <div id="modal-shade-price" class="modal-price">₹960</div>
+        <button id="modal-save-btn" class="btn btn-primary">
+          ✦ Save to Beauty Passport
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 2: PRICING HISTORY & PAST DISCOUNT TRACKER
+       ==================================================================== -->
+  <div id="price-history-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button id="price-modal-close-btn" class="modal-close" aria-label="Close Modal">&times;</button>
+
+      <div class="modal-pretitle">Price History & Festive Discount Tracker</div>
+      <h3 id="price-modal-product" class="modal-main-title">Kay Beauty - Hydrating Foundation</h3>
+      <div id="price-modal-shade" class="modal-subtitle">Shade: 150N</div>
+
+      <!-- Price Overview Summary -->
+      <div class="price-summary-card">
+        <div class="price-stat-item">
+          <div class="stat-label">Current Deal Price</div>
+          <div id="price-modal-current" class="stat-val highlight">₹960</div>
+        </div>
+        <div class="price-stat-item">
+          <div class="stat-label">Original MRP</div>
+          <div id="price-modal-mrp" class="stat-val"><del>₹1,200</del></div>
+        </div>
+        <div class="price-stat-item">
+          <div class="stat-label">Discount</div>
+          <div id="price-modal-discount" class="stat-val badge-discount">20% OFF</div>
+        </div>
+        <div class="price-stat-item">
+          <div class="stat-label">All-Time Record Low</div>
+          <div id="price-modal-lowest" class="stat-val green">₹799</div>
+        </div>
+      </div>
+
+      <!-- Buying Advice Recommendation -->
+      <div id="price-modal-advice" class="price-advice-box">
+        <!-- Dynamic Buying Advice -->
+      </div>
+
+      <!-- Past Events Timeline -->
+      <div class="timeline-container">
+        <div class="timeline-title">Recorded Price Drops & Sales History:</div>
+        <div id="price-timeline-steps" class="timeline-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Saved to Beauty Passport</div>
+
+  <!-- Application Scripts -->
+  <script src="data/shades.js"></script>
+  <script src="js/color-science.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/converter.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Style toggle slider
+    const toggle = document.getElementById('modal-oxidation-toggle');
+    const slider = document.getElementById('modal-toggle-slider');
+    toggle?.addEventListener('change', () => {
+      slider.style.backgroundColor = toggle.checked ? 'var(--color-accent)' : '#ccc';
+    });
+  </script>
+</body>
+</html>
